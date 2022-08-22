@@ -1,0 +1,311 @@
+\setscript[hanzi]
+\usetypescriptfile[mscore]
+\usebodyfont   [mschinese,20pt]
+
+
+\showframe
+% \enabletrackers[script*] %脚本跟踪
+
+% just for watching node list
+% \startluacode
+%     local watch = require("watch_sys_actions.lua")
+%     watch.register()
+% \stopluacode
+
+\starttext
+\define\myfill{\hskip 13.8em}
+
+% 
+% \subject{5.1.1 句号、逗号、顿号、分号、冒号均置于相应文字之后，占一个字位置，居左下，不出现在一行之首。}
+
+\myfill\dorecurse{2}{我。} %
+% [我 (U+06211) 'chinese'] [nobreak stretch] [。 (U+03002) 'full_width_close']
+% [。 (U+03002) 'full_width_close'] [stretch shrink break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{3}{我，} %
+
+\myfill\dorecurse{4}{我、} %
+
+\myfill\dorecurse{5}{我；} %
+
+\myfill\dorecurse{6}{我：} %
+
+
+% 
+% \subject{5.1.2 问号、叹号均置于相应文字之后，占一个字位置，居左，不出现在一行之首。两个问号（或叹号）叠用时，占一个字位置；三个问号（或叹号）叠用时，占两个字位置；问号和叹号连用时，占一个字位置。}
+
+\myfill\dorecurse{2}{我？} %
+% [我 (U+06211) 'chinese'] [nobreak stretch] [！ (U+0FF01) 'full_width_close']
+% [！ (U+0FF01) 'full_width_close'] [stretch shrink break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{3}{我！} %
+
+\myfill\dorecurse{4}{我？？} % 
+% [？ (U+0FF1F) 'full_width_close'] [nobreak shrink nobreak stretch] [？ (U+0FF1F) 'full_width_close']
+
+\myfill\dorecurse{5}{我！！} %
+
+\myfill\dorecurse{6}{我？？？} %
+
+\myfill\dorecurse{7}{我！！！} %
+
+\myfill\dorecurse{8}{我！？} %
+
+\myfill\dorecurse{9}{我？！！} %
+
+
+% 
+% \subject{5.1.3 引号、括号、书名号中的两部分标在相应项目的两端，各占一个字位置。其中前一半不出现在一行之末，后一半不出现在一行之首。}
+
+\myfill\dorecurse{1}{“我”我}
+% [nobreak shrink] [“ (U+0201C) 'full_width_open']
+% [“ (U+0201C) 'full_width_open'] [nobreak stretch] [我 (U+06211) 'chinese']
+% [我 (U+06211) 'chinese'] [nobreak stretch] [” (U+0201D) 'full_width_close']
+% [” (U+0201D) 'full_width_close'] [stretch shrink break] [我 (U+06211) 'chinese']
+% [我 (U+06211) 'chinese'] [stretch shrink break] [“ (U+0201C) 'full_width_open']
+
+\myfill\dorecurse{2}{‘我’我} %
+
+\myfill\dorecurse{3}{（我）我} %
+
+\myfill\dorecurse{4}{［我］我} %
+
+\myfill\dorecurse{5}{〔我〕我} %
+
+\myfill\dorecurse{6}{【我】我} %
+
+\myfill\dorecurse{7}{《我》我} %
+
+\myfill\dorecurse{8}{〈我〉我} %
+
+
+% 
+% \subject{ 5.1.4 破折号标在相应项目之间，占两个字位置，上下居中，不能中间断开分处上行之末和下行之首。}
+
+\myfill\dorecurse{2}{我——} %
+% [我 (U+06211) 'chinese'] [nobreak stretch] [— (U+02014) 'full_width_nospace_close']
+% [nobreak] [— (U+02014) 'full_width_nospace_close']
+% [stretch break before double punctuations] [— (U+02014) 'full_width_nospace_close']
+% [— (U+02014) 'full_width_nospace_close'] [stretch break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{3}{我——} %
+
+\myfill我\dorecurse{3}{我——} %
+
+% 
+% \subject{5.1.5 省略号占两个字位置，两个省略号连用时占四个字位置并须单独占一行。省略号不能中间断开分处上行之末和下行之首。}
+
+\myfill\dorecurse{2}{我……} %
+
+\myfill\dorecurse{3}{我……} %
+
+\myfill我\dorecurse{3}{我……} %
+
+………… %
+
+% 
+% \subject{5.1.6 连接号中的短横线比汉字“一”略短，占半个字位置；一字线比汉字“一”略长，占一个字位置；浪纹线占一个字位置。连接号上下居中，不出现在一行之首。}
+
+\myfill\dorecurse{8}{1-} %
+% [1 (U+00031) 'ASCII_digit'] [nobreak stretch] [- (U+0002D) 'hyphen']
+% ？？？
+% [1 (U+00031) 'ASCII_digit'] [nobreak stretch] [- (U+0002D) 'hyphen']
+
+\myfill\dorecurse{15}{1-} %
+
+\myfill\dorecurse{8}{a-} %
+% [a (U+00061) 'basic_latin'] [nobreak stretch] [- (U+0002D) 'hyphen']
+% ？？？
+% [a (U+00061) 'basic_latin'] [nobreak stretch] [- (U+0002D) 'hyphen']
+
+\myfill\dorecurse{15}{a-} %
+
+\myfill\dorecurse{6}{我-} %
+% [我 (U+06211) 'chinese'] [nobreak stretch] [- (U+0002D) 'hyphen']
+% [- (U+0002D) 'hyphen'] [stretch break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{5}{1—} %
+% [1 (U+00031) 'ASCII_digit'] [nobreak stretch] [— (U+02014) 'full_width_nospace_close']
+% [— (U+02014) 'full_width_nospace_close'] [stretch break] [1 (U+00031) 'ASCII_digit']
+
+\myfill\dorecurse{6}{1—} %
+
+\myfill\dorecurse{5}{a—} %
+% [a (U+00061) 'basic_latin'] [nobreak stretch] [— (U+02014) 'full_width_nospace_close']
+% [— (U+02014) 'full_width_nospace_close'] [stretch break] [a (U+00061) 'basic_latin']
+
+\myfill\dorecurse{6}{a—} %
+
+\myfill\dorecurse{3}{我—} %
+% [我 (U+06211) 'chinese'] [nobreak stretch] [— (U+02014) 'hyphen']
+% [— (U+02014) 'hyphen'] [stretch break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{6}{我—} % good
+% [我 (U+06211) 'chinese'] [nobreak stretch] [— (U+02014) 'full_width_nospace_close']
+% [— (U+02014) 'full_width_nospace_close'] [stretch break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{5}{1～} %
+% [1 (U+00031) 'ASCII_digit'] [nobreak stretch] [～ (U+0FF5E) 'full_width_nospace_close']
+% [～ (U+0FF5E) 'full_width_nospace_close'] [stretch break] [1 (U+00031) 'ASCII_digit']
+
+\myfill\dorecurse{6}{1～} %
+
+\myfill\dorecurse{5}{a～} %
+% [a (U+00061) 'basic_latin'] [nobreak stretch] [～ (U+0FF5E) 'full_width_nospace_close']
+% [～ (U+0FF5E) 'full_width_nospace_close'] [stretch break] [a (U+00061) 'basic_latin']
+
+\myfill\dorecurse{6}{a～} %
+
+\myfill\dorecurse{3}{我～} %
+% [我 (U+06211) 'chinese'] [nobreak stretch] [～ (U+0FF5E) 'full_width_nospace_close']
+% [～ (U+0FF5E) 'full_width_nospace_close'] [stretch break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{4}{我～} %
+
+\myfill\dorecurse{5}{我～} %
+
+
+
+% \subject{5.1.7 间隔号标在需要隔开的项目之间，占半个字位置，上下居中，不出现在一行之首。}
+% 符号宽度待处理
+
+\myfill\dorecurse{3}{我·} %
+% [我 (U+06211) 'chinese'] [nobreak stretch] [· (U+000B7) 'full_width_nospace_close']
+% [· (U+000B7) 'full_width_nospace_close'] [stretch shrink break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{4}{我·} %
+
+\myfill\dorecurse{5}{我·} %
+
+
+% \subject{5.1.8 着重号和专名号标在相应文字的下边。}
+% 不处理行间符号
+
+
+% 
+% \subject{5.1.9 分隔号占半个字位置，不出现在一行之首或一行之末。}
+% 不执行本条断行规则，而按一般连字符处理
+
+\myfill\dorecurse{7}{1/} %
+% [1 (U+00031) 'ASCII_digit'] [nobreak stretch] [/ (U+0002F) 'half_width_close']
+% ？？？
+% [1 (U+00031) 'ASCII_digit'] [nobreak stretch] [/ (U+0002F) 'half_width_close']
+
+\myfill\dorecurse{8}{1/} %
+
+\myfill\dorecurse{9}{1/} %
+
+\myfill\dorecurse{8}{a/} %
+% [a (U+00061) 'basic_latin'] [nobreak stretch] [/ (U+0002F) 'half_width_close']
+% ？？？
+% [a (U+00061) 'basic_latin'] [nobreak stretch] [/ (U+0002F) 'half_width_close']
+
+\myfill\dorecurse{9}{a/} %
+
+\myfill\dorecurse{10}{a/} %
+
+\myfill\dorecurse{4}{我/} %
+% [我 (U+06211) 'chinese'] [nobreak stretch] [/ (U+0002F) 'half_width_close']
+% [/ (U+0002F) 'half_width_close'] [stretch break] [我 (U+06211) 'chinese']
+
+\myfill\dorecurse{5}{我/} %
+
+\myfill\dorecurse{6}{我/} %
+
+
+% \subject{5.1.10 标点符号排在一行末尾时，若为全角字符则应占半角字符的宽度（即半个字位置），以使视觉效果更美观。}
+
+
+
+% \subject{5.1.11 在实际编辑出版工作中，为排版美观、方便阅读等需要，或为避免某一小节最后一个汉字转行或出现在另外一页开头等情况（浪费版面及视觉效果差），可适当压缩标点符号所占用的空间。}
+
+
+% 
+% \subject{常用标点组合测试}
+
+% close and open
+
+\myfill\dorecurse{2}{我：“} %
+
+\myfill\dorecurse{6}{我：“} %
+
+\myfill\dorecurse{2}{我”“} %
+
+\myfill\dorecurse{6}{我”“} %
+
+\myfill\dorecurse{1}{我”、“} %
+
+\myfill\dorecurse{2}{我”、“} %
+
+\myfill\dorecurse{3}{我”、“} %
+
+% long
+
+\myfill\dorecurse{1}{我——”} %
+
+\myfill\dorecurse{3}{我——”} %
+
+\myfill\dorecurse{8}{我——”} %
+
+\myfill\dorecurse{8}{我……”} %
+
+\myfill\dorecurse{8}{我？？？”} %
+
+\myfill\dorecurse{8}{我！！！”} %
+
+\myfill\dorecurse{8}{我？？！！！”} %
+
+\myfill\dorecurse{20}{（——《〈庄子〉“内篇”“集解”？！！》……）} %
+
+
+% open and open
+
+\myfill\dorecurse{3}{我(((} %
+
+\myfill\dorecurse{4}{我(((} %
+
+\myfill\dorecurse{5}{我(((} %
+
+\myfill\dorecurse{1}{我（（（} %
+
+\myfill\dorecurse{2}{我（（（} %
+
+\myfill\dorecurse{3}{我（（（} %
+
+
+% close and close
+
+\myfill\dorecurse{3}{我)))} %
+
+\myfill\dorecurse{4}{我)))} %
+
+\myfill\dorecurse{5}{我)))} %
+
+\myfill\dorecurse{1}{我）））} %
+
+\myfill\dorecurse{2}{我）））} %
+
+\myfill\dorecurse{3}{我）））} %
+
+% Chinese Latin number
+
+\myfill\dorecurse{1}{我1000} %
+
+\myfill\dorecurse{2}{我1000} %
+
+\myfill\dorecurse{3}{我1000} %
+
+\myfill\dorecurse{8}{我1000} %
+
+\myfill\dorecurse{1}{我word} %
+
+\myfill\dorecurse{2}{我word} %
+
+\myfill\dorecurse{3}{我word} %
+
+\myfill\dorecurse{8}{我word} %
+
+
+
+\stoptext
+
