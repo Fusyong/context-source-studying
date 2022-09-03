@@ -154,7 +154,7 @@ table.setmetatableindex(characters.scripthash, function(t,k)
         or (k >= 0x20000 and k <= 0x2A6DF)
         or (k >= 0x2F800 and k <= 0x2FA1F) then v = "chinese"
     elseif (k >= 0x00000 and k <= 0x0007F) then v = "basic_latin" --  any side effects?
-    elseif (k >= 0x0030 and k <= 0x0039) then v = "ASCII_digit" --  any side effects?
+    elseif (k >= 0x0030 and k <= 0x0039) then v = "ASCII_digit"   --  any side effects?
     elseif (k >= 0x0AC00 and k <= 0x0D7A3) then v = "korean"
     elseif (k >= 0x01100 and k <= 0x0115F) then v = "jamo_initial"
     elseif (k >= 0x01160 and k <= 0x011A7) then v = "jamo_medial"

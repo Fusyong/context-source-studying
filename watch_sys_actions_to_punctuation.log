@@ -1,5 +1,5 @@
 system          > 
-system          > ConTeXt  ver: 2022.07.27 17:56 LMTX  fmt: 2022.8.13  int: english/english
+system          > ConTeXt  ver: 2022.07.27 17:56 LMTX  fmt: 2022.9.3  int: english/english
 system          > 
 system          > 'cont-new.mkxl' loaded
 open source     > level 1, order 1, name 'D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkxl/cont-new.mkxl'
@@ -14,6 +14,7 @@ fonts           > bodyfont '24pt' is defined (can better be done global)
 fonts           > bodyfont '16pt' is defined (can better be done global)
 open source     > level 2, order 3, name 'D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-mscore.mkiv'
 close source    > level 2, order 3, name 'D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-mscore.mkiv'
+fonts           > checks > registering extra script 'default'
 open source     > level 2, order 4, name 'D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-cambria.mkiv'
 open source     > level 3, order 5, name 'D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-dejavu.mkiv'
 close source    > level 3, order 5, name 'D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-dejavu.mkiv'
@@ -27,40 +28,44 @@ close source    > level 2, order 6, name 'D:/venvs/context-win64/tex/texmf-conte
 backend         > xmp > using file 'D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lpdf-pdx.xml'
 pages           > flushing realpage 1, userpage 1, subpage 1
 pages           > flushing realpage 2, userpage 2, subpage 2
-1:3: [package: overfull \hbox (9.21263pt too wide) in paragraph at lines 109--113]
-1:3: [package: overfull \hbox (149.21263pt too wide) in paragraph at lines 114--115]
-1:3: [package: overfull \hbox (9.21263pt too wide) in paragraph at lines 116--120]
-1:3: [package: overfull \hbox (149.21263pt too wide) in paragraph at lines 121--122]
+1:3: [package: overfull \hbox (109.26726pt too wide) in paragraph at lines 122--123]
+1:3: [package: overfull \hbox (10.89568pt too wide) in paragraph at lines 129--130]
+1:3: [package: overfull \hbox (1.24388pt too wide) in paragraph at lines 135--138]
+1:3: [package: overfull \hbox (31.65013pt too wide) in paragraph at lines 139--140]
+1:3: [package: overfull \hbox (24.6381pt too wide) in paragraph at lines 145--146]
+1:3: [package: overfull \hbox (1.24388pt too wide) in paragraph at lines 155--158]
 pages           > flushing realpage 3, userpage 3, subpage 3
-1:3: [package: overfull \hbox (9.21263pt too wide) in paragraph at lines 194--195]
-1:3: [package: overfull \hbox (29.21263pt too wide) in paragraph at lines 196--197]
-1:3: [package: overfull \hbox (9.21263pt too wide) in paragraph at lines 198--202]
-1:3: [package: overfull \hbox (29.21263pt too wide) in paragraph at lines 203--204]
-1:3: [package: overfull \hbox (49.21263pt too wide) in paragraph at lines 205--206]
+1:3: [package: overfull \hbox (31.65013pt too wide) in paragraph at lines 159--160]
+1:3: [package: overfull \hbox (24.6381pt too wide) in paragraph at lines 165--166]
 pages           > flushing realpage 4, userpage 4, subpage 4
 pages           > flushing realpage 5, userpage 5, subpage 5
 pages           > flushing realpage 6, userpage 6, subpage 6
 pages           > flushing realpage 7, userpage 7, subpage 7
+1:3: [package: overfull \hbox (34.08763pt too wide) in paragraph at lines 304--305]
+1:3: [package: overfull \hbox (342.21263pt too wide) in paragraph at lines 306--307]
+1:3: [package: overfull \hbox (37.53267pt too wide) in paragraph at lines 312--313]
+1:3: [package: overfull \hbox (351.3994pt too wide) in paragraph at lines 314--315]
 pages           > flushing realpage 8, userpage 8, subpage 8
 close source    > level 1, order 6, name 'd:/ah21/TEX/context-source-studying/watch_sys_actions_to_punctuation.lmtx'
 system          > start used files
 system          > text: watch_sys_actions_to_punctuation
 system          > stop used files
 system          > start used files
-system          >    1: filename=publ-imp-default.lua filetype=scripts foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/publ-imp-default.lua fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/publ-imp-default.lua usedmethod=database
+system          >    1: filename=publ-imp-default.lua filetype=lua foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/publ-imp-default.lua fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/publ-imp-default.lua usedmethod=database
 system          >    2: filename=cont-new.mkxl filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkxl/cont-new.mkxl fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkxl/cont-new.mkxl usedmethod=database
-system          >    3: filename=lang-exc.lua filetype=scripts foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lang-exc.lua fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lang-exc.lua usedmethod=database
-system          >    4: filename=lang-us.lua filetype=scripts foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/patterns/mkiv/lang-us.lua fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/patterns/mkiv/lang-us.lua usedmethod=database
+system          >    3: filename=lang-exc.lua filetype=lua foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lang-exc.lua fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lang-exc.lua usedmethod=database
+system          >    4: filename=lang-us.lua filetype=lua foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/patterns/mkiv/lang-us.lua fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/patterns/mkiv/lang-us.lua usedmethod=database
 system          >    5: filename=d:/ah21/TEX/context-source-studying/watch_sys_actions_to_punctuation.lmtx format=tex foundname=d:/ah21/TEX/context-source-studying/watch_sys_actions_to_punctuation.lmtx fullname=d:/ah21/TEX/context-source-studying/watch_sys_actions_to_punctuation.lmtx usedmethod=direct
 system          >    6: filename=type-imp-mscore.mkiv filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-mscore.mkiv fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-mscore.mkiv usedmethod=database
 system          >    7: filename=type-imp-cambria.mkiv filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-cambria.mkiv fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-cambria.mkiv usedmethod=database
 system          >    8: filename=type-imp-dejavu.mkiv filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-dejavu.mkiv fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/type-imp-dejavu.mkiv usedmethod=database
 system          >    9: filename=cambria-math.lfg filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/cambria-math.lfg fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/fonts/mkiv/cambria-math.lfg usedmethod=database
 system          >   10: filename=c:/windows/fonts/simsun.ttc format=ttc foundname=c:/windows/fonts/simsun.ttc fullname=c:/windows/fonts/simsun.ttc usedmethod=direct
-system          >   11: filename=c:/windows/fonts/cambria.ttc format=ttc foundname=c:/windows/fonts/cambria.ttc fullname=c:/windows/fonts/cambria.ttc usedmethod=direct
-system          >   12: filename=s-layout-show.mkxl filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/modules/mkxl/s-layout-show.mkxl fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/modules/mkxl/s-layout-show.mkxl usedmethod=database
-system          >   13: filename=page-run.lua filetype=tex format=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/page-run.lua fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/page-run.lua usedmethod=database
-system          >   14: filename=lpdf-pdx.xml filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lpdf-pdx.xml fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lpdf-pdx.xml usedmethod=database
+system          >   11: filename=times.ttf filetype=ttf format=ttf foundname=c:/windows/fonts/times.ttf fullname=c:/windows/fonts/times.ttf usedmethod=filesystem
+system          >   12: filename=c:/windows/fonts/cambria.ttc format=ttc foundname=c:/windows/fonts/cambria.ttc fullname=c:/windows/fonts/cambria.ttc usedmethod=direct
+system          >   13: filename=s-layout-show.mkxl filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/modules/mkxl/s-layout-show.mkxl fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/modules/mkxl/s-layout-show.mkxl usedmethod=database
+system          >   14: filename=page-run.lua filetype=tex format=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/page-run.lua fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/page-run.lua usedmethod=database
+system          >   15: filename=lpdf-pdx.xml filetype=tex foundname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lpdf-pdx.xml fullname=D:/venvs/context-win64/tex/texmf-context/tex/context/base/mkiv/lpdf-pdx.xml usedmethod=database
 system          > stop used files
 system          > start commandline options
 system          > currentrun="1"
@@ -87,29 +92,29 @@ system          >   min     150000   10000000     150000     150000    2000000  
 system          >   set     500000   10000000     250000     250000   50000000   10000000   10000000     100000       2000      10000     100000     500000     100000        250        250        250
 system          >   stp     100000    1000000     100000     100000     500000     250000    1000000      10000        250       1000      10000      10000        250        250         50         25
 system          > 
-system          >   mem     150000     930219     150000               2000000    1000000    1000000      10000        500       1000      20000      10000    5650368         96       1200        320
-system          >   all    2400000     930219    2400000              18000000    8000000    1000000     320000      16000      72000      80000     160000    5650368         96      28800      10240
+system          >   mem     150000     930228     150000               2000000    1000000    1000000      10000        500       1000      20000      10000    5918624         96       1200        320
+system          >   all    2400000     930228    2400000              18000000    8000000    1000000     320000      16000      72000      80000     160000    5918624         96      28800      10240
 system          > 
-system          >   ini    2143596     875855          0      46425          0     508182                                                                                       0                      
-system          >   ptr      48797                  9555      48778                564387          0          0          0          0          0          0          4          0          0          7
-system          >   top      48798                740719     131074      24701     565521        302         39          7         12         42        369        250        250         50         10
+system          >   ini    2143596     875854          0      46425          0     508180                                                                                       0                      
+system          >   ptr      48798                  9555      48779                568218          0          0          0          0          0          0          5          0          0          7
+system          >   top      48799                740719     131074      26283     569256        302         39          7         12         42        369        250        250         50         10
 system          >   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 system          > 
 system          >   current input type    : initial
 system          > 
-system          >   approximate memory    : 41366843 (39 MB)
+system          >   approximate memory    : 41669924 (39 MB)
 system          > 
 system          >   expansion depth       : min: 10000, max: 1000000, set: 10000, top: 5
 system          > 
 system          >   luabytecode registers : 1006
 system          >   luabytecode bytes     : 16112 (0 MB)
-system          >   luastate bytes now    : 92754658 (88 MB)
-system          >   luastate bytes max    : 92927160 (88 MB)
+system          >   luastate bytes now    : 84650582 (80 MB)
+system          >   luastate bytes max    : 98806499 (94 MB)
 system          > 
-system          >   file callbacks        : 941
-system          >   saved callbacks       : 2222
+system          >   file callbacks        : 990
+system          >   saved callbacks       : 2248
 system          >   direct callbacks      : 3
-system          >   function callbacks    : 2126
+system          >   function callbacks    : 2416
 system          >   value callbacks       : 9
 system          >   message callbacks     : 0
 system          >   bytecode callbacks    : 606
@@ -121,34 +126,34 @@ system          >   mp text callbacks     : 0
 system          >   mp script callbacks   : 0
 system          >   mp log callbacks      : 0
 system          > 
-system          >   total callbacks       : 5907
+system          >   total callbacks       : 6272
 system          >   mp total callbacks    : 0
 system          >   backend callbacks     : 0
 system          > 
 mkiv lua stats  > used config file: selfautoparent:/texmf/web2c/texmfcnf.lua
 mkiv lua stats  > used cache path: D:/venvs/context-win64/tex/texmf-cache/luametatex-cache/context/5fe67e0bfe781ce0dde776fb1556f32e
-mkiv lua stats  > resource resolver: loadtime 0.007 seconds, 0 scans with scantime 0.000 seconds, 0 shared scans, 14 found files, scanned paths: <none>
-mkiv lua stats  > stored bytecode data: 506 modules (0.242 sec), 100 tables (0.014 sec), 606 chunks (0.256 sec)
+mkiv lua stats  > resource resolver: loadtime 0.010 seconds, 0 scans with scantime 0.000 seconds, 0 shared scans, 15 found files, scanned paths: <none>
+mkiv lua stats  > stored bytecode data: 506 modules (0.274 sec), 100 tables (0.018 sec), 606 chunks (0.292 sec)
 mkiv lua stats  > traced context: maxstack: 1647, freed: 0, unreachable: 1647
 mkiv lua stats  > cleaned up reserved nodes: 76 nodes, 8 lists of 434
 mkiv lua stats  > node memory usage: 9 attribute, 1 glue, 79 gluespec, 3 kern, 590 mathspec, 2 penalty, 2 temp
-mkiv lua stats  > node list callback tasks: 13 unique task lists, 9 instances (re)created, 1136 calls
-mkiv lua stats  > driver time: 0.016 seconds 
+mkiv lua stats  > node list callback tasks: 13 unique task lists, 9 instances (re)created, 1157 calls
+mkiv lua stats  > driver time: 0.014 seconds 
 mkiv lua stats  > used backend: pdf
-mkiv lua stats  > jobdata time: 0.002 seconds saving, 0.001 seconds loading
-mkiv lua stats  > callbacks: file: 941, saved: 2222, direct: 3, function: 2126, value: 9, message: 0, bytecode: 606, late 0, total: 5907 (738 per page)
+mkiv lua stats  > jobdata time: 0.003 seconds saving, 0.001 seconds loading
+mkiv lua stats  > callbacks: file: 990, saved: 2248, direct: 3, function: 2416, value: 9, message: 0, bytecode: 606, late 0, total: 6272 (784 per page)
 mkiv lua stats  > randomizer: resumed with value 0.73567038528741
 mkiv lua stats  > loaded tex modules: 1 requested, all found (*-s-layout-show)
 mkiv lua stats  > loaded patterns: en::1, load time: 0.000
-mkiv lua stats  > loaded fonts: 2 files: cambria.ttc, simsun.ttc
-mkiv lua stats  > font engine: otf 3.120, afm 1.513, tfm 1.000, 4 instances, load time 0.346 seconds 
+mkiv lua stats  > loaded fonts: 3 files: cambria.ttc, simsun.ttc, times.ttf
+mkiv lua stats  > font engine: otf 3.120, afm 1.513, tfm 1.000, 5 instances, load time 0.306 seconds 
 mkiv lua stats  > body font sizes: defined: 10pt 11pt 12pt 14.4pt 17.3pt 20.7pt 4pt 5pt 6pt 7pt 8pt 9pt, undefined: 16pt 20pt 24pt
 mkiv lua stats  > page group warning: transparencies are used but no pagecolormodel is set
-mkiv lua stats  > font embedding time: 0.041 seconds, 1 fonts
+mkiv lua stats  > font embedding time: 0.056 seconds, 2 fonts
 mkiv lua stats  > result saved in file: d:/ah21/TEX/context-source-studying/watch_sys_actions_to_punctuation.pdf, compresslevel 1, objectcompresslevel 3
 mkiv lua stats  > positions: 4 collected, 0 deltas, 0 shared partials, 0 partial entries
 mkiv lua stats  > used platform: win64, type: windows, binary subtree: texmf-win64
 mkiv lua stats  > used engine: luametatex version: 2.0957, functionality level: 20220726, format id: 664, compiler: gcc
-mkiv lua stats  > tex properties: 740719 hash slots used of 2097152, 48778 control sequences, approximate memory usage: 39 MB
-mkiv lua stats  > lua properties: engine: lua 5.4, used memory: 91 MB, ctx: 88 MB, max: 88 MB, symbol mask: utf (τεχ)
-mkiv lua stats  > runtime: 0.911 seconds, 8 processed pages, 8 shipped pages, 8.783 pages/second
+mkiv lua stats  > tex properties: 740719 hash slots used of 2097152, 48779 control sequences, approximate memory usage: 39 MB
+mkiv lua stats  > lua properties: engine: lua 5.4, used memory: 84 MB, ctx: 80 MB, max: 94 MB, symbol mask: utf (τεχ)
+mkiv lua stats  > runtime: 0.883 seconds, 8 processed pages, 8 shipped pages, 9.061 pages/second

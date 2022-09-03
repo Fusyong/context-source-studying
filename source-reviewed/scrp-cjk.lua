@@ -24,7 +24,6 @@ local remove_node      = nuts.remove
 local nextglyph        = nuts.traversers.glyph
 
 local getnext          = nuts.getnext
-local tonode           = nuts.tonode
 local getprev          = nuts.getprev
 local getfont          = nuts.getfont
 local getchar          = nuts.getchar
@@ -59,6 +58,7 @@ local scriptcolors     = scripts.colors
 local fonthashes       = fonts.hashes
 local quaddata         = fonthashes.quads
 local spacedata        = fonthashes.spaces
+local fontdata         = fonthashes.identifiers
 
 local decomposed       = characters.hangul.decomposed
 
@@ -134,48 +134,9 @@ end
 
 local function nobreak(head,current)
     if trace_details then
-        trace_detail(current,"break")
+        trace_detail(current,"nobreak")
     end
     insertnodebefore(head,current,new_penalty(10000))
-end
-
-local function doubleEllipsis_doubleEMDash_nobreak(head,current)
-    -- [0x2026]   …   ellipsis
-    -- [0x2014]   —   Em Dash
-    -- but `……` and `——` are seen respectively as a single punctuation in Chinese
-    -- we can break before or after each of them, and there should no be any space between the two parts.
-    -- Is there a better way to handle it and a better point to handle this issue?
-    local current_char = getchar(current)
-    local prev_node = getprev(current)
-    if prev_node and current_char == getchar(prev_node)
-    and (current_char == 0x2026 or current_char == 0x2014) then
-        
-        insertnodebefore(head,current,new_penalty(10000))
-        if trace_details then
-            trace_detail(current,"nobreak")
-        end
-        
-        -- remove infinite penalty before `……` or `——`
-        prev_node = getprev(prev_node)
-        while prev_node do
-            local node_id = getid(prev_node)
-            if node_id == penalty_code then
-                remove_node(head,prev_node,true)
-                if trace_details then
-                    trace_detail(current,"stretch break before double punctuations")
-                end
-                break
-            elseif node_id == glyph_code then
-                break
-            end
-            prev_node = getprev(prev_node)
-        end
-    else -- the original code with wrong tracking information
-        if trace_details then
-            trace_detail(current,"nobreak") -- trace_detail(current,"break")
-        end
-        insertnodebefore(head,current,new_penalty(10000))
-    end
 end
 
 local function stretch_break(head,current)
@@ -183,6 +144,61 @@ local function stretch_break(head,current)
         trace_detail(current,"stretch break")
     end
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
+end
+
+-- `……` and `——` are seen respectively as a single punctuation in Chinese
+-- we can break before or after each of them, and there should no be any space between the two parts.
+-- [0x2026]   …   ellipsis
+-- [0x2014]   —   Em Dash
+-- Is there a better way or a better time to handle this issue?
+
+modules['scrp-cjk']["doubleEMDash_kern"] = modules['scrp-cjk']["doubleEMDash_kern"] or {}
+local doubleEMDash = modules['scrp-cjk']["doubleEMDash_kern"]
+
+local function doubleEllipsis_doubleEMDash_nobreak(head,current)
+    local current_char = getchar(current)
+    local prev_node = getprev(current)
+    if prev_node and current_char == getchar(prev_node)
+    and (current_char == 0x2026 or current_char == 0x2014) then
+        
+        nobreak(head, current)
+        
+        if current_char == 0x2014 then -- kill the font space between
+            local font = getfont(current)
+            local kern
+            if doubleEMDash[font] then
+                kern = doubleEMDash[font]
+            else
+                local quad = quaddata[font]
+                local desc = fontdata[font].descriptions[current_char]
+                local desc_width = desc.width
+                local boundingbox = desc.boundingbox
+                local left_space =  boundingbox[1]
+                local right_space = desc_width - boundingbox[3]
+                kern = -(left_space + right_space)/desc_width * quad
+                doubleEMDash[font] = kern
+            end
+            insertnodebefore(head,current,new_kern(kern))
+        end
+
+        -- remove infinite penalty before `……` or `——`
+        prev_node = getprev(prev_node)
+        while prev_node do
+            local node_id = getid(prev_node)
+            if node_id == penalty_code then
+                remove_node(head,prev_node,true)
+                if trace_details then
+                    trace_detail(current,"stretch break before doubleEllipsis_doubleEMDash")
+                end
+                break
+            elseif node_id == glyph_code then
+                break
+            end
+            prev_node = getprev(prev_node)
+        end
+    else
+        stretch_break(head, current)
+    end
 end
 
 local function shrink_break(head,current)
@@ -220,7 +236,7 @@ local function nobreak_shrink(head,current)
         trace_detail(current,"nobreak shrink")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
 end
 
 local function nobreak_autoshrink(head,current)
@@ -238,7 +254,7 @@ local function nobreak_stretch_nobreak_shrink(head,current)
     insertnodebefore(head,current,new_penalty(10000))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
 end
 
 local function nobreak_stretch_nobreak_autoshrink(head,current)
@@ -256,7 +272,7 @@ local function nobreak_shrink_nobreak_stretch(head,current)
         trace_detail(current,"nobreak shrink nobreak stretch")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
     insertnodebefore(head,current,new_penalty(10000))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
 end
@@ -276,7 +292,7 @@ local function nobreak_shrink_break_stretch(head,current)
         trace_detail(current,"nobreak shrink break stretch")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
 end
 
@@ -294,7 +310,7 @@ local function nobreak_shrink_break_stretch_nobreak_shrink(head,current)
         trace_detail(current,"nobreak shrink break stretch nobreak shrink")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
     insertnodebefore(head,current,new_penalty(10000))
     insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
@@ -353,7 +369,7 @@ local function nobreak_autoshrink_break_stretch_nobreak_shrink(head,current)
     insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
 end
 
 local function nobreak_shrink_break_stretch_nobreak_autoshrink(head,current)
@@ -361,10 +377,10 @@ local function nobreak_shrink_break_stretch_nobreak_autoshrink(head,current)
         trace_detail(current,"nobreak shrink break stretch nobreak autoshrink")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink)) -- inter_char_shrink?
 end
 
 local function nobreak_stretch_break_shrink(head,current)
@@ -373,7 +389,7 @@ local function nobreak_stretch_break_shrink(head,current)
     end
     insertnodebefore(head,current,new_penalty(10000))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
 end
 
 local function nobreak_stretch_break_autoshrink(head,current)
@@ -855,8 +871,8 @@ local function process(head,first,last)
                         local pcjk = getscriptstatus(p)
                         local ncjk = getscriptstatus(n)
                         if not pcjk                       or not ncjk
-                            or pcjk == "basic_latin"      or ncjk == "basic_latin"
-                            or pcjk == "ASCII_digit"      or ncjk == "ASCII_digit"
+                            or pcjk == "basic_latin"      or ncjk == "basic_latin" -- !!!
+                            or pcjk == "ASCII_digit"      or ncjk == "ASCII_digit" -- !!!
                             or pcjk == "korean"           or ncjk == "korean"
                             or pcjk == "other"            or ncjk == "other"
                             or pcjk == "jamo_final"       or ncjk == "jamo_initial"

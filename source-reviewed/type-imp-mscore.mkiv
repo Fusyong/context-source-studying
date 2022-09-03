@@ -1,6 +1,6 @@
 %D \module
 %D   [       file=type-imp-mscore,
-%D        version=2007.07.30,
+%D        version=2022.09.03,
 %D          title=\CONTEXT\ Typescript Macros,
 %D       subtitle=Microsoft Core Fonts,
 %D         author=Hans Hagen,
@@ -10,6 +10,11 @@
 %C This module is part of the \CONTEXT\ macro||package and is
 %C therefore copyrighted by \PRAGMA. See mreadme.pdf for
 %C details.
+
+
+% usage:
+% \usetypescriptfile[mscore]
+% \setupbodyfont[mschinese, rm, 10.5pt]
 
 \starttypescriptcollection[mscore]
 
@@ -78,82 +83,80 @@
 
 \stoptypescriptcollection
 
-
-% http://archive1.village.virginia.edu/spw4s/fonts/
-% https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
-
 \starttypescriptcollection[microsoft-chinese-old]
-% This script references type-imp-ipaex.mkiv
-% usage:
-% \usetypescriptfile[mscore]
-% \usebodyfont   [mschinese,rm,12pt] %or% \setupbodyfont[mschinese,rm,12pt]
+    % http://archive1.village.virginia.edu/spw4s/fonts/
+    % https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
+    % This typescript references type-imp-ipaex.mkiv
+    % TODO:
+    % use simsunb.ttf/simsunextb or mingliub.ttc as fallback for Chinese in ExtB
+    % Why Deng.ttf, Dengb.ttf, msyhl.ttc, msyh.ttc, msyhbd.ttc and Dengl.ttf do not work?
 
-\definefontfeature  [zh-default]            [script=default,lang=chinese]
-\definefontfeature  [zh-latin-default]      [zh-default]
-\definefontfeature  [zh-latin-slanted]      [zh-latin-default]            [slant=.2]
-\definefontfeature  [zh-latin-slanted-mono]                               [slant=.2]
-\definefontfeature  [zh-latin-smallcaps]    [zh-latin-default]            [smcp=yes]
-\definefontfeature  [zh-latin-smallcaps-mono]                             [cmcp=yes]
+    \definefontfeature  [zh-default]            [script=default,lang=chinese]
+    \definefontfeature  [zh-latin-default]      [zh-default]
+    \definefontfeature  [zh-latin-slanted]      [zh-latin-default]              [slant=.2]
+    \definefontfeature  [zh-latin-slanted-mono]                                 [slant=.2]
+    \definefontfeature  [zh-latin-smallcaps]    [zh-latin-default]              [smcp=yes]
+    \definefontfeature  [zh-latin-smallcaps-mono]                               [cmcp=yes]
 
-% .ttf not really needed but we want to force the originals
+    % .ttf not really needed but we want to force the originals
 
-\definefontfallback[zh-serif]           [\s!file:times.ttf*zh-latin-default]            [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-serifbold]       [\s!file:timesbd.ttf*zh-latin-default]          [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-serifitalic]     [\s!file:timesi.ttf*zh-latin-default]           [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-serifbolditalic] [\s!file:timesbi.ttf*zh-latin-default]          [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-serifslanted]    [\s!file:Amiri-Slanted.ttf*zh-latin-slanted]    [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-serifboldslanted][\s!file:Amiri-BoldSlanted.ttf*zh-latin-slanted][0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-serifcaps]       [\s!file:times.ttf*zh-latin-smallcaps]          [0x0000-0x0400][force=yes,rscale=1.0406]
-% TODO simsunb.ttf or mingliub.ttc for Chinese in ExtB
-% \definefontsynonym [zh-serif-extb]      [\s!file:simsunb.ttf*zh-default]                [\s!features=zh-default,\s!fallbacks=zh-serif]
+    \definefontfallback[zh-serif]           [\s!file:times.ttf*zh-latin-default]            [0x0000-0x0400][force=yes,rscale=1.0406]
+    % \definefontfallback[zh-serif-extb]      [\s!file:simsunb.ttf*zh-default]                [preset=range:chinese]
+    \definefontfallback[zh-serif-extb]      [\s!file:times.ttf*zh-latin-default]            [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-serifbold]       [\s!file:timesbd.ttf*zh-latin-default]          [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-serifitalic]     [\s!file:timesi.ttf*zh-latin-default]           [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-serifbolditalic] [\s!file:timesbi.ttf*zh-latin-default]          [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-serifslanted]    [\s!file:Amiri-Slanted.ttf*zh-latin-slanted]    [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-serifboldslanted][\s!file:Amiri-BoldSlanted.ttf*zh-latin-slanted][0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-serifcaps]       [\s!file:times.ttf*zh-latin-smallcaps]          [0x0000-0x0400][force=yes,rscale=1.0406]
 
-\definefontfallback[zh-sans]            [\s!file:arial.ttf*zh-latin-default]            [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-sansbold]        [\s!file:arialbd.ttf*zh-latin-default]          [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-sansitalic]      [\s!file:ariali.ttf*zh-latin-default]           [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-sansbolditalic]  [\s!file:arialbi.ttf*zh-latin-default]          [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-sansslanted]     [\s!file:Amiri-Slanted.ttf*zh-latin-slanted]    [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-sansboldslanted] [\s!file:Amiri-BoldSlanted.ttf*zh-latin-slanted][0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-sanscaps]        [\s!file:arial.ttf*zh-latin-smallcaps]          [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-sans]            [\s!file:arial.ttf*zh-latin-default]            [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-sansbold]        [\s!file:arialbd.ttf*zh-latin-default]          [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-sansitalic]      [\s!file:ariali.ttf*zh-latin-default]           [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-sansbolditalic]  [\s!file:arialbi.ttf*zh-latin-default]          [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-sansslanted]     [\s!file:Amiri-Slanted.ttf*zh-latin-slanted]    [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-sansboldslanted] [\s!file:Amiri-BoldSlanted.ttf*zh-latin-slanted][0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-sanscaps]        [\s!file:arial.ttf*zh-latin-smallcaps]          [0x0000-0x0400][force=yes,rscale=1.0406]
 
-\definefontfallback[zh-mono]            [\s!file:cour.ttf]                              [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-monobold]        [\s!file:courbd.ttf]                            [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-monoitalic]      [\s!file:couri.ttf]                             [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-monobolditalic]  [\s!file:courbi.ttf]                            [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-monoslanted]     [\s!file:Amiri-Slanted.ttf*zh-latin-slanted]    [0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-monoboldslanted] [\s!file:Amiri-BoldSlanted.ttf*zh-latin-slanted][0x0000-0x0400][force=yes,rscale=1.0406]
-\definefontfallback[zh-monocaps]        [\s!file:cour.ttf*zh-latin-smallcaps-mono]      [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-mono]            [\s!file:cour.ttf]                              [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-monobold]        [\s!file:courbd.ttf]                            [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-monoitalic]      [\s!file:couri.ttf]                             [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-monobolditalic]  [\s!file:courbi.ttf]                            [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-monoslanted]     [\s!file:Amiri-Slanted.ttf*zh-latin-slanted]    [0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-monoboldslanted] [\s!file:Amiri-BoldSlanted.ttf*zh-latin-slanted][0x0000-0x0400][force=yes,rscale=1.0406]
+    \definefontfallback[zh-monocaps]        [\s!file:cour.ttf*zh-latin-smallcaps-mono]      [0x0000-0x0400][force=yes,rscale=1.0406]
 
     \starttypescript [\s!serif] [mschinese]
         \setups[\s!font:\s!fallback:\s!serif]
-        \definefontsynonym [\s!Serif]           [\s!file:simsun.ttc]  [\s!features=zh-default,\s!fallbacks=zh-serif] % or STSONG.TTF
-        \definefontsynonym [\s!SerifItalic]     [\s!file:simkai.ttf]  [\s!features=zh-default,\s!fallbacks=zh-serifitalic] % or STKAITI.TTF
-        \definefontsynonym [\s!SerifBold]       [\s!file:simhei.ttf]  [\s!features=zh-default,\s!fallbacks=zh-serifbold] % or STZHONGS.TTF
-        \definefontsynonym [\s!SerifBoldItalic] [\s!file:STXINWEI.TTF][\s!features=zh-default,\s!fallbacks=zh-serifbolditalic]
-        \definefontsynonym [\s!SerifSlanted]    [\s!file:simkai.ttf  ][\s!features=zh-default,\s!fallbacks=zh-serifslanted]
-        \definefontsynonym [\s!SerifBoldSlanted][\s!file:STXINWEI.TTF][\s!features=zh-default,\s!fallbacks=zh-serifboldslanted]
-        \definefontsynonym [\s!SerifCaps]       [\s!file:SIMYOU.TTF  ][\s!features=zh-default,\s!fallbacks=zh-serifcaps]
+        \definefontsynonym [\s!Serif]           [\s!file:simsun.ttc]    [\s!features=zh-default,\s!fallbacks=zh-serif-extb]
+        \definefontsynonym [\s!SerifItalic]     [\s!file:simkai.ttf]    [\s!features=zh-default,\s!fallbacks=zh-serifitalic]
+        \definefontsynonym [\s!SerifBold]       [\s!file:simhei.ttf]    [\s!features=zh-default,\s!fallbacks=zh-serifbold]
+        \definefontsynonym [\s!SerifBoldItalic] [\s!file:simhei.ttf]    [\s!features=zh-default,\s!fallbacks=zh-serifbolditalic]
+        \definefontsynonym [\s!SerifSlanted]    [\s!file:simfang.ttf]   [\s!features=zh-default,\s!fallbacks=zh-serifslanted]
+        \definefontsynonym [\s!SerifBoldSlanted][\s!file:simhei.ttf]    [\s!features=zh-default,\s!fallbacks=zh-serifboldslanted]
+        \definefontsynonym [\s!SerifCaps]       [\s!file:STXIHEI.TTF]   [\s!features=zh-default,\s!fallbacks=zh-serifcaps]
     \stoptypescript
 
     \starttypescript [\s!sans] [mschinese]
         \setups[\s!font:\s!fallback:\s!sans]
-        \definefontsynonym[\s!Sans]            [\s!file:STXIHEI.TTF ][\s!features=zh-default,\s!fallbacks=zh-sans] % why can not use msyhl.ttc or msyh.ttc?
-        \definefontsynonym[\s!SansItalic]      [\s!file:simkai.ttf  ][\s!features=zh-default,\s!fallbacks=zh-sansitalic]
-        \definefontsynonym[\s!SansBold]        [\s!file:simhei.ttf  ][\s!features=zh-default,\s!fallbacks=zh-sansbold] % why can not use msyhbd.ttc or msyh.ttc?
-        \definefontsynonym[\s!SansBoldItalic]  [\s!file:STXINWEI.TTF][\s!features=zh-default,\s!fallbacks=zh-sansbolditalic]
-        \definefontsynonym[\s!SansSlanted]     [\s!file:simkai.ttf  ][\s!features=zh-default,\s!fallbacks=zh-sansslanted]
-        \definefontsynonym[\s!SansBoldSlanted] [\s!file:STXINWEI.TTF][\s!features=zh-default,\s!fallbacks=zh-sansboldslanted]
-        \definefontsynonym[\s!SansCaps]        [\s!file:SIMYOU.TTF  ][\s!features=zh-default,\s!fallbacks=zh-sanscaps]
+        \definefontsynonym[\s!Sans]            [\s!file:STXIHEI.TTF ]   [\s!features=zh-default,\s!fallbacks=zh-sans]
+        \definefontsynonym[\s!SansItalic]      [\s!file:simkai.ttf  ]   [\s!features=zh-default,\s!fallbacks=zh-sansitalic]
+        \definefontsynonym[\s!SansBold]        [\s!file:simhei.ttf  ]   [\s!features=zh-default,\s!fallbacks=zh-sansbold]
+        \definefontsynonym[\s!SansBoldItalic]  [\s!file:simhei.ttf]     [\s!features=zh-default,\s!fallbacks=zh-sansbolditalic]
+        \definefontsynonym[\s!SansSlanted]     [\s!file:simfang.ttf  ]  [\s!features=zh-default,\s!fallbacks=zh-sansslanted]
+        \definefontsynonym[\s!SansBoldSlanted] [\s!file:simhei.ttf]     [\s!features=zh-default,\s!fallbacks=zh-sansboldslanted]
+        \definefontsynonym[\s!SansCaps]        [\s!file:simhei.ttf   ]  [\s!features=zh-default,\s!fallbacks=zh-sanscaps]
     \stoptypescript
 
-    \starttypescript [\s!mono] [mschinese] % for the old mschinese-light
+    \starttypescript [\s!mono] [mschinese] % for the previous mschinese-light
         \setups[\s!font:\s!fallback:\s!mono]
-        \definefontsynonym[\s!Mono]            [\s!file:simfang.ttf ][\s!features=zh-default,\s!fallbacks=zh-mono]
-        \definefontsynonym[\s!MonoItalic]      [\s!file:simkai.ttf  ][\s!features=zh-slanted,\s!fallbacks=zh-monoitalic]
-        \definefontsynonym[\s!MonoBold]        [\s!file:simhei.ttf  ][\s!features=zh-default,\s!fallbacks=zh-monobold]
-        \definefontsynonym[\s!MonoBoldItalic]  [\s!file:STXINWEI.TTF][\s!features=zh-slanted,\s!fallbacks=zh-monobolditalic]
-        \definefontsynonym[\s!MonoSlanted]     [\s!file:simkai.ttf  ][\s!features=zh-slanted,\s!fallbacks=zh-monoslanted]
-        \definefontsynonym[\s!MonoBoldSlanted] [\s!file:STXINWEI.TTF][\s!features=zh-slanted,\s!fallbacks=zh-monoboldslanted]
-        \definefontsynonym[\s!MonoCaps]        [\s!file:SIMYOU.TTF  ][\s!features=zh-default,\s!fallbacks=zh-monocaps]
+        \definefontsynonym[\s!Mono]            [\s!file:simfang.ttf ]   [\s!features=zh-default,\s!fallbacks=zh-mono]
+        \definefontsynonym[\s!MonoItalic]      [\s!file:simkai.ttf  ]   [\s!features=zh-slanted,\s!fallbacks=zh-monoitalic]
+        \definefontsynonym[\s!MonoBold]        [\s!file:simhei.ttf  ]   [\s!features=zh-default,\s!fallbacks=zh-monobold]
+        \definefontsynonym[\s!MonoBoldItalic]  [\s!file:simhei.ttf]     [\s!features=zh-slanted,\s!fallbacks=zh-monobolditalic]
+        \definefontsynonym[\s!MonoSlanted]     [\s!file:simkai.ttf  ]   [\s!features=zh-slanted,\s!fallbacks=zh-monoslanted]
+        \definefontsynonym[\s!MonoBoldSlanted] [\s!file:simhei.ttf]     [\s!features=zh-slanted,\s!fallbacks=zh-monoboldslanted]
+        \definefontsynonym[\s!MonoCaps]        [\s!file:STXIHEI.TTF  ]  [\s!features=zh-default,\s!fallbacks=zh-monocaps]
     \stoptypescript
 
     \starttypescript[mschinese]
@@ -165,13 +168,13 @@
 
     \starttypescript [\s!serif] [mschinese-literate] % for Children's reading material
         \setups[\s!font:\s!fallback:\s!serif]
-        \definefontsynonym [\s!Serif]           [\s!file:simkai.ttf  ][\s!features=zh-default,\s!fallbacks=zh-serif]
-        \definefontsynonym [\s!SerifItalic]     [\s!file:simfang.ttf ][\s!features=zh-default,\s!fallbacks=zh-serifitalic]
-        \definefontsynonym [\s!SerifBold]       [\s!file:simhei.ttf  ][\s!features=zh-default,\s!fallbacks=zh-serifbold]
-        \definefontsynonym [\s!SerifBoldItalic] [\s!file:STXINWEI.TTF][\s!features=zh-default,\s!fallbacks=zh-serifbolditalic]
-        \definefontsynonym [\s!SerifSlanted]    [\s!file:simfang.ttf ][\s!features=zh-default,\s!fallbacks=zh-serifslanted]
-        \definefontsynonym [\s!SerifBoldSlanted][\s!file:STXINWEI.TTF][\s!features=zh-default,\s!fallbacks=zh-serifboldslanted]
-        \definefontsynonym [\s!SerifCaps]       [\s!file:SIMYOU.TTF  ][\s!features=zh-default,\s!fallbacks=zh-serifcaps]
+        \definefontsynonym [\s!Serif]           [\s!file:simkai.ttf ]   [\s!features=zh-default,\s!fallbacks=zh-serif]
+        \definefontsynonym [\s!SerifItalic]     [\s!file:simfang.ttf]   [\s!features=zh-default,\s!fallbacks=zh-serifitalic]
+        \definefontsynonym [\s!SerifBold]       [\s!file:simhei.ttf ]   [\s!features=zh-default,\s!fallbacks=zh-serifbold]
+        \definefontsynonym [\s!SerifBoldItalic] [\s!file:simhei.ttf ]   [\s!features=zh-default,\s!fallbacks=zh-serifbolditalic]
+        \definefontsynonym [\s!SerifSlanted]    [\s!file:simfang.ttf]   [\s!features=zh-default,\s!fallbacks=zh-serifslanted]
+        \definefontsynonym [\s!SerifBoldSlanted][\s!file:simhei.ttf ]   [\s!features=zh-default,\s!fallbacks=zh-serifboldslanted]
+        \definefontsynonym [\s!SerifCaps]       [\s!file:STXIHEI.TTF]   [\s!features=zh-default,\s!fallbacks=zh-serifcaps]
     \stoptypescript
 
     \starttypescript[mschineseliterate, mschinese-literate]
@@ -180,6 +183,3 @@
     \stoptypescript
 
 \stoptypescriptcollection
-
-
-

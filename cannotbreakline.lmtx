@@ -1,0 +1,18 @@
+\definefallbackfamily [documentfont] [rm] [file:simsun.ttc][Serif CJK SC]
+[preset=range:chinese]
+\definefallbackfamily [documentfont] [ss] [file:simsun.ttc][Sans CJK SC]
+[preset=range:chinese]
+\definefallbackfamily [documentfont] [tt] [file:simsun.ttc][Sans Mono CJK SC]
+[preset=range:chinese]
+
+\definefontfamily [documentfont] [rm] [file:simsun.ttc][Serif]
+\definefontfamily [documentfont] [ss] [file:simsun.ttc][Sans]
+\definefontfamily [documentfont] [tt] [file:simsun.ttc][Sans Mono]
+
+\setupbodyfont [documentfont]
+
+\setupruby[color=darkgray]
+
+\starttext
+\ruby{寖備}{jìn bèi} \ss \ruby{寖備}{jìn bèi} \tt \ruby{寖備}{jìn bèi}
+\stoptext

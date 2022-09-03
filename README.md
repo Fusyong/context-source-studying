@@ -7,6 +7,19 @@ MKLINK [[/D] | [/H] | [/J]] Link Target
         Link    指定新的符号链接名称。
         Target  指定新链接引用的路径(相对或绝对)。
 
+## 安装字体相关命令
+
+mtxrun --generate
+mtxrun --script font --reload
+
+查找你想要字体（包括文件名和符号名称），比如：
+
+mtxrun --script fonts --list --all --pattern=*noto*cjk*light*
+
+或列出四种特性：
+
+>mtxrun --script fonts --list --spec deng-light
+
 ## tex\texmf-context\third\zhfonts\
 
 
