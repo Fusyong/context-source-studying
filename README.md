@@ -1,3 +1,5 @@
+谨供本人学习ConTeXt源码用，其中包含有ConTeXt源码（请遵守源码版权协议）以及我的修改
+
 # 符号链接
 
 MKLINK [[/D] | [/H] | [/J]] Link Target
