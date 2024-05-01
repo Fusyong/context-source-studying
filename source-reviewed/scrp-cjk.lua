@@ -42,7 +42,6 @@ local nodecodes        = nodes.nodecodes
 local gluecodes        = nodes.gluecodes
 
 local glyph_code       = nodecodes.glyph
-local penalty_code     = nodecodes.penalty
 local glue_code        = nodecodes.glue
 
 local userskip_code    = gluecodes.userskip
@@ -58,7 +57,6 @@ local scriptcolors     = scripts.colors
 local fonthashes       = fonts.hashes
 local quaddata         = fonthashes.quads
 local spacedata        = fonthashes.spaces
-local fontdata         = fonthashes.identifiers
 
 local decomposed       = characters.hangul.decomposed
 
@@ -134,7 +132,7 @@ end
 
 local function nobreak(head,current)
     if trace_details then
-        trace_detail(current,"nobreak")
+        trace_detail(current,"break")
     end
     insertnodebefore(head,current,new_penalty(10000))
 end
@@ -146,61 +144,6 @@ local function stretch_break(head,current)
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
 end
 
--- `……` and `——` are seen respectively as a single punctuation in Chinese
--- we can break before or after each of them, and there should no be any space between the two parts.
--- [0x2026]   …   ellipsis
--- [0x2014]   —   Em Dash
--- Is there a better way or a better time to handle this issue?
-
-modules['scrp-cjk']["doubleEMDash_kern"] = modules['scrp-cjk']["doubleEMDash_kern"] or {}
-local doubleEMDash = modules['scrp-cjk']["doubleEMDash_kern"]
-
-local function doubleEllipsis_doubleEMDash_nobreak(head,current)
-    local current_char = getchar(current)
-    local prev_node = getprev(current)
-    if prev_node and current_char == getchar(prev_node)
-    and (current_char == 0x2026 or current_char == 0x2014) then
-        
-        nobreak(head, current)
-        
-        if current_char == 0x2014 then -- kill the font space between
-            local font = getfont(current)
-            local kern
-            if doubleEMDash[font] then
-                kern = doubleEMDash[font]
-            else
-                local quad = quaddata[font]
-                local desc = fontdata[font].descriptions[current_char]
-                local desc_width = desc.width
-                local boundingbox = desc.boundingbox
-                local left_space =  boundingbox[1]
-                local right_space = desc_width - boundingbox[3]
-                kern = -(left_space + right_space)/desc_width * quad
-                doubleEMDash[font] = kern
-            end
-            insertnodebefore(head,current,new_kern(kern))
-        end
-
-        -- remove infinite penalty before `……` or `——`
-        prev_node = getprev(prev_node)
-        while prev_node do
-            local node_id = getid(prev_node)
-            if node_id == penalty_code then
-                remove_node(head,prev_node,true)
-                if trace_details then
-                    trace_detail(current,"stretch break before doubleEllipsis_doubleEMDash")
-                end
-                break
-            elseif node_id == glyph_code then
-                break
-            end
-            prev_node = getprev(prev_node)
-        end
-    else
-        stretch_break(head, current)
-    end
-end
-
 local function shrink_break(head,current)
     if trace_details then
         trace_detail(current,"shrink break")
@@ -208,17 +151,9 @@ local function shrink_break(head,current)
     insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
 end
 
-local function stretch_shrink_break(head,current)
-    if trace_details then
-        trace_detail(current,"stretch shrink break")
-    end
-    insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
-end
-
 local function nobreak_stretch(head,current)
     if trace_details then
-        trace_detail(current,"nobreak stretch")
+        trace_detail(current,"no break stretch")
     end
     insertnodebefore(head,current,new_penalty(10000))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
@@ -236,7 +171,7 @@ local function nobreak_shrink(head,current)
         trace_detail(current,"nobreak shrink")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
 end
 
 local function nobreak_autoshrink(head,current)
@@ -254,7 +189,7 @@ local function nobreak_stretch_nobreak_shrink(head,current)
     insertnodebefore(head,current,new_penalty(10000))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
 end
 
 local function nobreak_stretch_nobreak_autoshrink(head,current)
@@ -272,7 +207,7 @@ local function nobreak_shrink_nobreak_stretch(head,current)
         trace_detail(current,"nobreak shrink nobreak stretch")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
     insertnodebefore(head,current,new_penalty(10000))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
 end
@@ -292,7 +227,7 @@ local function nobreak_shrink_break_stretch(head,current)
         trace_detail(current,"nobreak shrink break stretch")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
 end
 
@@ -310,10 +245,10 @@ local function nobreak_shrink_break_stretch_nobreak_shrink(head,current)
         trace_detail(current,"nobreak shrink break stretch nobreak shrink")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink))
+    insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
 end
 
 local function japanese_between_full_close_open(head,current) -- todo: check width
@@ -369,7 +304,7 @@ local function nobreak_autoshrink_break_stretch_nobreak_shrink(head,current)
     insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
 end
 
 local function nobreak_shrink_break_stretch_nobreak_autoshrink(head,current)
@@ -377,10 +312,10 @@ local function nobreak_shrink_break_stretch_nobreak_autoshrink(head,current)
         trace_detail(current,"nobreak shrink break stretch nobreak autoshrink")
     end
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
     insertnodebefore(head,current,new_penalty(10000))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
 end
 
 local function nobreak_stretch_break_shrink(head,current)
@@ -389,7 +324,7 @@ local function nobreak_stretch_break_shrink(head,current)
     end
     insertnodebefore(head,current,new_penalty(10000))
     insertnodebefore(head,current,new_glue(0,inter_char_stretch,0))
-    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink)) -- inter_char_shrink?
+    insertnodebefore(head,current,new_glue(0,0,inter_char_half_shrink))
 end
 
 local function nobreak_stretch_break_autoshrink(head,current)
@@ -503,23 +438,20 @@ local injectors = { -- [previous] [current]
     half_width_close = korean_5,
 }
 
-scriptcolors.korean                     = "trace:0"
-scriptcolors.chinese                    = "trace:0"
-scriptcolors.basic_latin                = "trace:0"
-scriptcolors.ASCII_digit                = "trace:0"
-scriptcolors.katakana                   = "trace:0"
-scriptcolors.hiragana                   = "trace:0"
-scriptcolors.full_width_open            = "trace:1"
-scriptcolors.full_width_close           = "trace:2"
-scriptcolors.full_width_nospace_close   = "trace:2"
-scriptcolors.half_width_open            = "trace:3"
-scriptcolors.half_width_close           = "trace:4"
-scriptcolors.full_width_punct           = "trace:5"
-------------.hyphen                     = "trace:5"
-scriptcolors.non_starter                = "trace:6"
-scriptcolors.jamo_initial               = "trace:7"
-scriptcolors.jamo_medial                = "trace:8"
-scriptcolors.jamo_final                 = "trace:9"
+scriptcolors.korean            = "trace:0"
+scriptcolors.chinese           = "trace:0"
+scriptcolors.katakana          = "trace:0"
+scriptcolors.hiragana          = "trace:0"
+scriptcolors.full_width_open   = "trace:1"
+scriptcolors.full_width_close  = "trace:2"
+scriptcolors.half_width_open   = "trace:3"
+scriptcolors.half_width_close  = "trace:4"
+scriptcolors.full_width_punct  = "trace:5"
+------------.hyphen            = "trace:5"
+scriptcolors.non_starter       = "trace:6"
+scriptcolors.jamo_initial      = "trace:7"
+scriptcolors.jamo_medial       = "trace:8"
+scriptcolors.jamo_final        = "trace:9"
 
 local function process(head,first,last)
     if first ~= last then
@@ -610,6 +542,7 @@ function scripts.decomposehangul(head)
     for current, char in nextglyph, head do
         local lead_consonant, medial_vowel, tail_consonant = decomposed(char)
         if lead_consonant then
+            local current = current -- 5.5 constant
             setchar(current,lead_consonant)
             local m = copy_node(current)
             setchar(m,medial_vowel)
@@ -645,197 +578,149 @@ local chinese_0 = {
 }
 
 local chinese_1 = {
-    jamo_initial                = korean_break,
-    korean                      = korean_break,
-    chinese                     = stretch_break,
-    hiragana                    = stretch_break,
-    katakana                    = stretch_break,
-    half_width_open             = stretch_break,
-    half_width_close            = nobreak_stretch,
-    full_width_open             = stretch_shrink_break,
-    full_width_close            = nobreak_stretch,
-    full_width_nospace_close    = nobreak_stretch,
-    full_width_punct            = nobreak_stretch,
---  hyphen                      = nil,
-    non_starter                 = stretch_break,
-    other                       = stretch_break,
+    jamo_initial     = korean_break,
+    korean           = korean_break,
+    chinese          = stretch_break,
+    hiragana         = stretch_break,
+    katakana         = stretch_break,
+    half_width_open  = nobreak_stretch_break_autoshrink,
+    half_width_close = nobreak_stretch,
+    full_width_open  = nobreak_stretch_break_shrink,
+    full_width_close = nobreak_stretch,
+    full_width_punct = nobreak_stretch,
+--  hyphen           = nil,
+    non_starter      = nobreak_stretch,
+    other            = stretch_break,
 }
 
 local chinese_2 = {
-    jamo_initial                = stretch_break,
-    korean                      = stretch_break,
-    chinese                     = stretch_break,
-    basic_latin                 = stretch_break,
-    ASCII_digit                 = stretch_break,
-    hiragana                    = stretch_break,
-    katakana                    = stretch_break,
-    half_width_open             = stretch_break,
-    half_width_close            = nobreak_stretch,
-    full_width_open             = stretch_shrink_break,
-    full_width_close            = nobreak_stretch,
-    full_width_nospace_close    = nobreak_stretch,
-    full_width_punct            = nobreak_stretch,
-    hyphen                      = nobreak_stretch,
-    non_starter                 = stretch_break,
-    other                       = stretch_break,
+    jamo_initial     = korean_break,
+    korean           = stretch_break,
+    chinese          = stretch_break,
+    hiragana         = stretch_break,
+    katakana         = stretch_break,
+    half_width_open  = nobreak_stretch_break_autoshrink,
+    half_width_close = nobreak_stretch,
+    full_width_open  = nobreak_stretch_break_shrink,
+    full_width_close = nobreak_stretch,
+    full_width_punct = nobreak_stretch,
+    hyphen           = nobreak_stretch,
+    non_starter      = nobreak_stretch,
+    other            = stretch_break,
 }
 
 local chinese_3 = {
-    jamo_initial                = korean_break,
-    korean                      = stretch_break,
-    chinese                     = stretch_break,
-    hiragana                    = stretch_break,
-    katakana                    = stretch_break,
-    half_width_open             = stretch_break,
-    half_width_close            = nobreak_stretch,
-    full_width_open             = stretch_shrink_break,
-    full_width_close            = nobreak_stretch,
-    full_width_nospace_close    = nobreak_stretch,
-    full_width_punct            = nobreak_stretch,
-    hyphen                      = nobreak,
-    non_starter                 = stretch_break,
-    other                       = stretch_break,
+    jamo_initial     = korean_break,
+    korean           = stretch_break,
+    chinese          = stretch_break,
+    hiragana         = stretch_break,
+    katakana         = stretch_break,
+    half_width_open  = nobreak_stretch_break_autoshrink,
+    half_width_close = nobreak_stretch,
+    full_width_open  = nobreak_stretch_break_shrink,
+    full_width_close = nobreak_stretch,
+    full_width_punct = nobreak_stretch,
+--  hyphen           = nil,
+    non_starter      = nobreak_stretch,
+    other            = stretch_break,
 }
 
 local chinese_4 = {
-    --  jamo_initial            = nil,
-    --  korean                  = nil,
-    --  chinese                 = nil,
-    --  hiragana                = nil,
-    --  katakana                = nil,
-    half_width_open             = nobreak_autoshrink,
-    half_width_close            = nil,
-    full_width_open             = nobreak_shrink,
-    full_width_close            = nobreak,
-    full_width_nospace_close    = nobreak,
-    full_width_punct            = nobreak,
-    hyphen                      = nobreak,
-    non_starter                 = nobreak,
-    --  other                   = nil,
+--  jamo_initial     = nil,
+--  korean           = nil,
+--  chinese          = nil,
+--  hiragana         = nil,
+--  katakana         = nil,
+    half_width_open  = nobreak_autoshrink,
+    half_width_close = nil,
+    full_width_open  = nobreak_shrink,
+    full_width_close = nobreak,
+    full_width_punct = nobreak,
+--  hyphen           = nil,
+    non_starter      = nobreak,
+--  other            = nil,
 }
 
 local chinese_5 = {
-    jamo_initial                = stretch_break,
-    korean                      = stretch_break,
-    chinese                     = stretch_break,
-    hiragana                    = stretch_break,
-    katakana                    = stretch_break,
-    half_width_open             = stretch_break,
-    half_width_close            = nobreak_stretch,
-    full_width_open             = stretch_shrink_break,
-    full_width_close            = nobreak_stretch,
-    full_width_nospace_close    = nobreak_stretch,
-    full_width_punct            = nobreak_stretch,
-    --  hyphen                  = nil,
-    non_starter                 = stretch_break,
-    other                       = stretch_break,
+    jamo_initial     = stretch_break,
+    korean           = stretch_break,
+    chinese          = stretch_break,
+    hiragana         = stretch_break,
+    katakana         = stretch_break,
+    half_width_open  = nobreak_stretch_break_autoshrink,
+    half_width_close = nobreak_stretch,
+    full_width_open  = nobreak_stretch_break_shrink,
+    full_width_close = nobreak_stretch,
+    full_width_punct = nobreak_stretch,
+--  hyphen           = nil,
+    non_starter      = nobreak_stretch,
+    other            = stretch_break,
 }
 
 local chinese_6 = {
-    jamo_initial                = nobreak_stretch,
-    korean                      = nobreak_stretch,
-    chinese                     = nobreak_stretch,
-    hiragana                    = nobreak_stretch,
-    katakana                    = nobreak_stretch,
-    half_width_open             = nobreak_stretch_break_autoshrink,
-    half_width_close            = nobreak_stretch,
-    full_width_open             = nobreak_stretch_break_shrink,
-    full_width_close            = nobreak_stretch,
-    full_width_nospace_close    = nobreak_stretch,
-    full_width_punct            = nobreak_stretch,
-    hyphen                      = nobreak_stretch,
-    non_starter                 = nobreak_stretch,
-    other                       = nobreak_stretch,
+    jamo_initial     = nobreak_stretch,
+    korean           = nobreak_stretch,
+    chinese          = nobreak_stretch,
+    hiragana         = nobreak_stretch,
+    katakana         = nobreak_stretch,
+    half_width_open  = nobreak_stretch_break_autoshrink,
+    half_width_close = nobreak_stretch,
+    full_width_open  = nobreak_stretch_break_shrink,
+    full_width_close = nobreak_stretch,
+    full_width_punct = nobreak_stretch,
+    hyphen           = nobreak_stretch,
+    non_starter      = nobreak_stretch,
+    other            = nobreak_stretch,
 }
 
 local chinese_7 = {
-    jami_initial                = stretch_shrink_break,
-    korean                      = stretch_shrink_break,
-    chinese                     = stretch_shrink_break,
-    hiragana                    = stretch_shrink_break,
-    katakana                    = stretch_shrink_break,
-    half_width_open             = stretch_shrink_break,
-    half_width_close            = nobreak_shrink_nobreak_stretch,
-    full_width_open             = shrink_break, -- don't stretch whith 2 half spaces
-    full_width_close            = nobreak_shrink_nobreak_stretch,
-    full_width_nospace_close    = nobreak_shrink_break_stretch,
-    full_width_punct            = nobreak_shrink_nobreak_stretch,
-    hyphen                      = nobreak_shrink_break_stretch,
-    non_starter                 = nobreak_shrink_break_stretch,
-    other                       = nobreak_shrink_break_stretch,
+    jami_initial     = nobreak_shrink_break_stretch,
+    korean           = nobreak_shrink_break_stretch,
+    chinese          = stretch_break, -- nobreak_shrink_break_stretch,
+    hiragana         = stretch_break, -- nobreak_shrink_break_stretch,
+    katakana         = stretch_break, -- nobreak_shrink_break_stretch,
+    half_width_open  = nobreak_shrink_break_stretch_nobreak_autoshrink,
+    half_width_close = nobreak_shrink_nobreak_stretch,
+    full_width_open  = nobreak_shrink_break_stretch_nobreak_shrink,
+    full_width_close = nobreak_shrink_nobreak_stretch,
+    full_width_punct = nobreak_shrink_nobreak_stretch,
+    hyphen           = nobreak_shrink_break_stretch,
+    non_starter      = nobreak_shrink_break_stretch,
+    other            = nobreak_shrink_break_stretch,
 }
 
 local chinese_8 = {
-    jami_initial                = stretch_break,
-    korean                      = stretch_break,
-    chinese                     = stretch_break,
-    hiragana                    = stretch_break,
-    katakana                    = stretch_break,
-    half_width_open             = stretch_break,
-    half_width_close            = nobreak_autoshrink_nobreak_stretch,
-    full_width_open             = stretch_shrink_break,
-    full_width_close            = nobreak_autoshrink_nobreak_stretch,
-    full_width_punct            = nobreak_autoshrink_nobreak_stretch,
-    full_width_nospace_close    = nobreak_stretch,
-    hyphen                      = nobreak_autoshrink_break_stretch,
-    non_starter                 = nobreak_autoshrink_break_stretch,
-    other                       = nobreak_autoshrink_break_stretch,
-}
-
-local chinese_9 = {
-    jami_initial                = stretch_break,
-    korean                      = stretch_break,
-    chinese                     = stretch_break,
-    basic_latin                 = stretch_break,
-    ASCII_digit                 = stretch_break,
-    hiragana                    = stretch_break,
-    katakana                    = stretch_break,
-    half_width_open             = stretch_break,
-    half_width_close            = nobreak_stretch,
-    full_width_open             = stretch_shrink_break,
-    full_width_close            = nobreak_stretch,
-    full_width_nospace_close    = doubleEllipsis_doubleEMDash_nobreak,
-    full_width_punct            = nobreak_stretch,
-    hyphen                      = nobreak_stretch,
-    non_starter                 = stretch_break,
-    other                       = stretch_break,
-}
-
-local chinese_10 = {
-    jamo_initial                = korean_break,
-    korean                      = stretch_break,
-    chinese                     = stretch_break,
-    hiragana                    = stretch_break,
-    katakana                    = stretch_break,
-    half_width_open             = stretch_break,
-    half_width_close            = nobreak_stretch,
-    full_width_open             = stretch_shrink_break,
-    full_width_close            = nobreak_stretch,
-    full_width_punct            = nobreak_stretch,
-    full_width_nospace_close    = nobreak_stretch,
-    hyphen                      = nobreak_stretch,
-    non_starter                 = stretch_break,
-    other                       = stretch_break,
+    jami_initial     = nobreak_shrink_break_stretch,
+    korean           = nobreak_autoshrink_break_stretch,
+    chinese          = stretch_break, -- nobreak_autoshrink_break_stretch,
+    hiragana         = stretch_break, -- nobreak_autoshrink_break_stretch,
+    katakana         = stretch_break, -- nobreak_autoshrink_break_stretch,
+    half_width_open  = nobreak_autoshrink_break_stretch_nobreak_autoshrink,
+half_width_open  = stretch_break,
+    half_width_close = nobreak_autoshrink_nobreak_stretch,
+    full_width_open  = nobreak_autoshrink_break_stretch_nobreak_shrink,
+    full_width_close = nobreak_autoshrink_nobreak_stretch,
+    full_width_punct = nobreak_autoshrink_nobreak_stretch,
+    hyphen           = nobreak_autoshrink_break_stretch,
+    non_starter      = nobreak_autoshrink_break_stretch,
+    other            = nobreak_autoshrink_break_stretch,
 }
 
 local injectors = { -- [previous] [current]
-    jamo_final                  = chinese_1,
-    korean                      = chinese_1,
-    chinese                     = chinese_2,
-    hiragana                    = chinese_2,
-    katakana                    = chinese_2,
-    hyphen                      = chinese_3,
-    start                       = chinese_4,
-    other                       = chinese_5,
-    non_starter                 = chinese_5,
-    full_width_open             = chinese_6,
-    half_width_open             = chinese_6,
-    full_width_close            = chinese_7,
-    full_width_punct            = chinese_7,
-    half_width_close            = chinese_8,
-    full_width_nospace_close    = chinese_9,
-    basic_latin                 = chinese_10, -- Will it override or interfere with the system behavior?
-    ASCII_digit                 = chinese_10, -- Will it override or interfere with the system behavior?
+    jamo_final       = chinese_1,
+    korean           = chinese_1,
+    chinese          = chinese_2,
+    hiragana         = chinese_2,
+    katakana         = chinese_2,
+    hyphen           = chinese_3,
+    start            = chinese_4,
+    other            = chinese_5,
+    non_starter      = chinese_5,
+    full_width_open  = chinese_6,
+    half_width_open  = chinese_6,
+    full_width_close = chinese_7,
+    full_width_punct = chinese_7,
+    half_width_close = chinese_8,
 }
 
 local function process(head,first,last)
@@ -871,8 +756,6 @@ local function process(head,first,last)
                         local pcjk = getscriptstatus(p)
                         local ncjk = getscriptstatus(n)
                         if not pcjk                       or not ncjk
-                            or pcjk == "basic_latin"      or ncjk == "basic_latin" -- !!!
-                            or pcjk == "ASCII_digit"      or ncjk == "ASCII_digit" -- !!!
                             or pcjk == "korean"           or ncjk == "korean"
                             or pcjk == "other"            or ncjk == "other"
                             or pcjk == "jamo_final"       or ncjk == "jamo_initial"
@@ -945,7 +828,7 @@ local japanese_2 = {
     katakana         = stretch_break,
     half_width_open  = nobreak_stretch_break_autoshrink,
     half_width_close = nobreak_stretch,
-    full_width_open  = nobreak_stretch_break_shrink,
+    full_width_open  = stretch_break, -- WS, was: nobreak_stretch_break_shrink,
     full_width_close = nobreak_stretch,
     full_width_punct = japanese_before_full_width_punct, -- nobreak_stretch,
     hyphen           = nobreak_stretch,
