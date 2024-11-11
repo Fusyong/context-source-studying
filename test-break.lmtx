@@ -1,0 +1,10 @@
+\setscript[hanzi]
+\usetypescriptfile[mscore]
+\usebodyfont   [mschinese,10.5pt]
+
+\startTEXpage[width=10em] 
+\hsize\zeropoint % to see where lines may be broken
+我： “好的！”他说：“好！！？？”
+
+我我：“说。”
+\stopTEXpage
